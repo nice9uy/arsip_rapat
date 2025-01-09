@@ -1,0 +1,76 @@
+{% load static %} 
+
+<div class="modal fade" id="tambah_klasifikasi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Surat</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="{% url 'setting_katagori_add' %}" method="POST" class="was-validated">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="mb-3">
+                      <input type="text" class="form-control" id="nama_surat" name="katagori_surat" autofocus required>
+                </div>
+            </div>
+            <div class="modal-footer ">
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+</div>
+
+
+<!-- modal untuk edit setting -->
+{% for data in katagori %} 
+ <div class="modal fade" id="button_edit_katagori{{ data.id }}" tabindex="-1" aria-labelledby="edit_surat" aria-hidden="true">
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h1 class="modal-title fs-5" id="edit_surat">Edit Katagori</h1>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+
+       <form action ="{% url 'setting_katagori_edit' data.id %}" method="POST" class="was-validated">
+         {% csrf_token %}
+         <div class="modal-body">
+             <div class="mb-3">
+                   <input  type="text" class="form-control"  name="katagori_surat" required value="{{ data.katagori }}">
+             </div>
+         </div>
+         <div class="modal-footer">
+           <button type="submit" class="btn btn-primary">Edit</button>
+         </div>
+       </form>
+     </div>
+   </div>
+ </div>
+{% endfor %} 
+
+<!-- modal untuk delete setting -->
+
+{% for data in katagori %} 
+ <div class="modal fade" id="button_delete_katagori{{ data.id }}" tabindex="-1" aria-labelledby="delete_surat" aria-hidden="true">
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h1 class="modal-title fs-5" id="delete_surat">Hapus Katagori</h1>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <form action="{% url 'setting_katagori_delete' data.id %}" method="POST">
+         {% csrf_token %}
+         <div class="modal-body">
+             <div class="mb-3">
+                   <p>Apakah yakin Katagori "{{ data.katagori }}" ingin dihapus?</p>
+             </div>
+         </div>
+         <div class="modal-footer">
+           <button type="submit" class="btn btn-primary">Hapus</button>
+         </div>
+       </form>
+     </div>
+   </div>
+ </div>
+{% endfor %}   

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block dashboard %} 
+
+{% include "partials/index_header.html" %}
+
+
+<div class="container-fluid mt-1 text-white" style="">
+    
+    <h5 class="text-center fw-bold">RAPAT HARI INI {% now "l, j M Y" %}</h5>
+    <table id="tabel_index" class="table table-striped table-bordered text-white" style="width:100%">
+        <thead>
+            <tr>
+                <th class="text-center">No</th>
+                <th class="text-center">NAMA</th>
+                <th class="text-center">No Surat</th>
+                <th class="text-center">TRAK</th>
+                <th class="text-center">TANGGAL</th>
+                <th class="text-center">JAM</th>
+                <th class="text-center">TENTANG</th>
+                <th class="text-center">Files</th>
+        </thead>
+        <tbody>
+            {% for data in dbsurat %}
+               <tr>
+                <td class="text-center ">{{ forloop.counter }}</td>
+                <td>{{ data.nama }}</td>
+                <td>{{ data.surat }}</td>
+                <td>{{ data.trak }}</td>
+                <td>{{ data.tgl | date:"d M Y"}}</td>
+                <td>{{ data.jam }}</td>
+                <td>{{ data.tentang }}</td>
+                <td class="d-flex justify-content-center" > 
+                  <div style="margin-top: 6px;">
+                      <a class="fa fa-file-pdf-o" aria-current="page" title="Files"  target="_blank" href="/upload/{{ data.upload_file }}"></a> 
+                  </div>
+                   
+               </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'modal/dashboard.html' %}
+
+<div class="container">
+    <footer class="py-1 my-1">
+      <p class="text-center text-muted">&copy; 2025 - {% now "Y" %} RAPAT PROGLAP By Abdul Rachman</p>
+    </footer>
+</div>
+
+{% endblock dashboard %}
+
+
+
+
+

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block  kas %}
+
+
+{%include 'partials/index_header.html' %}
+
+
+<div class="container-fluid mt-3 text-white" style="">
+    
+    <h5 class="text-center fw-bold">KAS BAG DATIN</h5>
+
+    <div style="margin-top: -2.5rem; margin-bottom: 0.4rem; justify-content: end;" class="d-flex gap-3">
+        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modal_pemasukan">PEMASUKAN</button>
+        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal_pengeluaran">PENGELUARAN</button>
+        <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal_laporan">LAPORAN</button>
+    </div>
+  
+    <table id="tabel_index" class="table table-striped table-bordered text-white" style="width:100%">
+        <thead>
+            <tr>
+                <th class="text-center">No</th>
+                <th class="text-center">Tanggal</th>
+                <th class="text-center">Dari</th>
+                <th class="text-center">Untuk</th>
+                <th class="text-center">Keterangan</th>
+                <th class="text-center">Pemasukan</th>
+                <th class="text-center">Pengeluaran</th>
+                <th class="text-center">Saldo</th>
+        </thead>
+        <tbody>
+            {% for data in dbsurat %}
+               <tr>
+                    <td class="text-center ">{{ forloop.counter }}</td>
+                    <td>{{ data.nama }}</td>
+                    <td>{{ data.surat }}</td>
+                    <td>{{ data.trak }}</td>
+                    <td>{{ data.tgl | date:"d M Y"}}</td>
+                    <td>{{ data.jam }}</td>
+                    <td>{{ data.tentang }}</td>
+                    <td class="d-flex justify-content-center" > 
+                      <div style="margin-top: 6px;">
+                          <a class="fa fa-file-pdf-o" aria-current="page" title="Files"  target="_blank" href="/upload/{{ data.upload_file }}"></a> 
+                      </div>
+                  {% comment %} </td>
+                    <td> 
+                      <a class="nav-link active text-center" aria-current="page" target="_blank" href="/upload/{{ data.upload_file }}">Lihat</a> 
+                    </td> {% endcomment %}
+               </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <footer class="py-1 my-1">
+      <p class="text-center text-muted">&copy; 2025 - {% now "Y" %} RAPAT PROGLAP By Abdul Rachman</p>
+    </footer>
+</div>
+
+{%include 'modal/kas.html' %}
+
+
+{% endblock  %}

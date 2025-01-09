@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
+    <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap5.min.css' %}" > 
+    <link rel="stylesheet" href="{% static 'css/loader.css' %}" > 
+    <link rel="icon" type="image/x-icon" href="{% static 'img/kemhan.png' %}">
+    <title>{{ page_title }}</title>
+</head>
+
+<body style="font-family: Oswald, Helvetica, Arial, sans-serif!important; " class="text-light">
+
+  <div id="preloader">
+    <div class="loader"></div>
+  </div>
+
+    {% block index %}{% endblock index %}
+    {% block login %}{% endblock login %}
+    {% block tambah_data %}{% endblock tambah_data %}
+    {% block kas %}{% endblock kas %}
+    {% block dashboard %}{% endblock dashboard %}
+
+
+    <script>
+      // JavaScript to hide the preloader
+      window.addEventListener('load', function () {
+        document.getElementById('preloader').style.display = 'none'
+      })
+    </script>
+
+    <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/font_awsome.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-3.7.0.js' %}"></script> 
+    <script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script> 
+    <script type="text/javascript" src="{% static 'js/dataTables.bootstrap5.min.js' %}"></script> 
+    <script type="text/javascript" src="{% static 'js/dataTables.min.js' %}"></script> 
+
+    <script>
+        new DataTable('#tabel_index')
+        new DataTable('#tabel_klasifikasi')
+    </script>
+
+  
+    <script>
+      (() => {
+          'use strict'
+        
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          const forms = document.querySelectorAll('.needs-validation')
+        
+          // Loop over them and prevent submission
+          Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+              if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+              }
+        
+              form.classList.add('was-validated')
+            }, false)
+          })
+        })()
+    </script>
+    
+</body>
+</html>

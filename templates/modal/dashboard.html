@@ -1,0 +1,109 @@
+{% load static %} 
+
+<!-- modal untuk edit setting -->
+{% for data in dbsurat %} 
+ {% comment %} <div class="modal fade" id="button_edit_dashboard{{ data.id }}" tabindex="-1" aria-labelledby="edit_surat" aria-hidden="true">
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h1 class="modal-title fs-5" id="edit_surat">Edit Katagori</h1>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+
+       <form action ="{% url 'dashboard_edit' data.id %}" method="POST" class="was-validated">
+         {% csrf_token %}
+         <div class="modal-body">
+             <div class="mb-3">
+                   <input  type="text" class="form-control"  name="katagori_surat" required value="{{ data.katagori }}">
+             </div>
+         </div>
+         <div class="modal-footer">
+           <button type="submit" class="btn btn-primary">Edit</button>
+         </div>
+       </form>
+     </div>
+   </div>
+ </div> {% endcomment %}
+
+
+
+ <div class="modal fade" id="button_edit_dashboard{{ data.id }}" tabindex="-1" aria-labelledby="button_edit_olah_data_harian" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="button_edit_olah_data_harian">Edit Data</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <form action ="" method="POST" class="was-validated">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div> 
+                <div class="d-flex gap-4">
+                     <select class="form-select" id="surat" required name="surat">
+                          <option value="">SURAT</option>
+                          <option value="Masuk" >Masuk</option>
+                          <option value="Keluar">Keluar</option>
+                      </select>  
+
+                      <select class="form-select" id="kategori" required name="kategori">
+                          <option value="">KLASIFIKASI</option>
+                          {% for data_katagori in katagori %}
+                              <option value="{{ data_katagori }}"  >{{ data_katagori }} </option>
+                          {% endfor %}
+                      </select>
+
+                      <div>
+                        <input type="date" class="form-control" required value="{{ data.tanggal }}" name="tanggal">
+                      </div>
+                  </div>
+                  <div class="mt-2">
+                      <label for="no_surat" class="form-label">No Surat</label>
+                      <input type="text" class="form-control" id="no_surat" required name="no_surat" value="{{ data.no_surat }}">
+                  </div>
+                  <div class="mt-2">
+                      <label for="kepada" class="form-label">Kepada</label>
+                      <input type="text" class="form-control" id="kepada" required name="kepada" value="{{ data.kepada }}">
+                  </div>
+                  <div class="mt-2">
+                      <label for="perihal" class="form-label">Prihal</label>
+                      <input type="text" class="form-control" id="perihal" required name="perihal" value="{{ data.perihal }}">
+                  </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Edit</button>
+          </div> 
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+{% endfor %} 
+
+<!-- modal untuk delete setting -->
+
+{% for data in dbsurat %} 
+ <div class="modal fade" id="button_delete_dashboard{{ data.id }}" tabindex="-1" aria-labelledby="delete_surat" aria-hidden="true">
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h1 class="modal-title fs-5" id="delete_surat">Hapus No Surat</h1>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <form action="" method="POST">
+         {% csrf_token %}
+         <div class="modal-body">
+             <div class="mb-3">
+                   <p>Apakah yakin No Surat "{{ data.no_surat }}" ingin dihapus?</p>
+             </div>
+         </div>
+         <div class="modal-footer">
+           <button type="submit" class="btn btn-primary">Hapus</button>
+         </div>
+       </form>
+     </div>
+   </div>
+ </div>
+{% endfor %}   
