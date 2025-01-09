@@ -24,9 +24,9 @@ from django.contrib.messages import constants as messages
 SECRET_KEY = 'django-insecure-dzpy5qdk1ejq%j5!q2-jx4jkig5ci-=psg9i-x7*v92-tv$ke@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['10.10.145.144']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',   
     'django_minify_html',
+    'whitenoise.runserver_nostatic',
     'data_surat_app',
     'accounts',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -121,12 +123,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static' 
 
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static",
-#     # "/var/www/static/",
-# ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    # "/var/www/static/",
+]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/upload/'
 MEDIA_ROOT = BASE_DIR / 'upload'
