@@ -29,6 +29,11 @@
                 <a class="nav-link {% if request.path == '/kas/' %} active {% endif %}" href="{% url 'kas' %}" >KAS</a>
             
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link " href="{% url 'admin:index' %}" >Admin</a>
+          
+          </li>
             
             <li class="nav-item">
               <a class="nav-link" href="{% url 'logout' %}" >Logout</a>

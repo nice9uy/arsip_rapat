@@ -1,12 +1,12 @@
 <div class="modal fade" id="modal_pemasukan" tabindex="-1" aria-labelledby="button_edit_olah_data_harian" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="button_edit_olah_data_harian">Pemasukan KAS</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
-        <form action ="" method="POST" class="was-validated">
+        <form action ="{% url 'kas_pemasukan' %}" method="POST" class="was-validated">
           {% csrf_token %}
           <div class="modal-body">
             <div> 
@@ -14,21 +14,21 @@
 
                  <div class="mt-2">
                     <label for="no_surat" class="form-label">Tanggal</label>
-                    <input type="date" class="form-control"  required name="tanggal"  >
+                    <input type="date" class="form-control"  required name="tgl"  >
                 </div>
 
                   </div>
                   <div class="mt-2">
                       <label for="no_surat" class="form-label">Dari</label>
-                      <input type="text" class="form-control" id="no_surat" required name="no_surat" value="{{ data.no_surat }}">
+                      <input type="text" class="form-control" id="dari" required name="dari" >
                   </div>
                   <div class="mt-2">
                       <label for="kepada" class="form-label">Keterangan</label>
-                      <input type="text" class="form-control" id="kepada" required name="kepada" value="{{ data.kepada }}">
+                      <input type="text" class="form-control" id="kepada" required name="ket" >
                   </div>
                   <div class="mt-2">
                       <label for="perihal" class="form-label">Pemasukan</label>
-                      <input type="text" class="form-control" id="perihal" required name="perihal" value="{{ data.perihal }}">
+                      <input type="text" class="form-control" id="perihal" required name="pemasukan">
                   </div>
             </div>
           </div>
@@ -42,14 +42,14 @@
 
 
   <div class="modal fade" id="modal_pengeluaran" tabindex="-1" aria-labelledby="button_edit_olah_data_harian" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="button_edit_olah_data_harian">Pengeluaran KAS</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
-        <form action ="" method="POST" class="was-validated">
+        <form action ="{% url 'kas_pengeluaran' %}" method="POST" class="was-validated">
           {% csrf_token %}
           <div class="modal-body">
             <div> 
@@ -57,21 +57,21 @@
 
                  <div class="mt-2">
                     <label for="no_surat" class="form-label">Tanggal</label>
-                    <input type="date" class="form-control"  required name="tanggal"  >
+                    <input type="date" class="form-control"  required name="tgl"  >
                 </div>
 
                   </div>
                   <div class="mt-2">
                       <label for="no_surat" class="form-label">Untuk</label>
-                      <input type="text" class="form-control" id="no_surat" required name="no_surat" value="{{ data.no_surat }}">
+                      <input type="text" class="form-control" id="no_surat" required name="untuk">
                   </div>
                   <div class="mt-2">
                       <label for="kepada" class="form-label">Keterangan</label>
-                      <input type="text" class="form-control" id="kepada" required name="kepada" value="{{ data.kepada }}">
+                      <input type="text" class="form-control" id="kepada" required name="ket">
                   </div>
                   <div class="mt-2">
                       <label for="perihal" class="form-label">Pengeluaran</label>
-                      <input type="text" class="form-control" id="perihal" required name="perihal" value="{{ data.perihal }}">
+                      <input type="text" class="form-control" id="perihal" required name="pengeluaran">
                   </div>
             </div>
           </div>

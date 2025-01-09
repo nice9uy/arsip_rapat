@@ -22,11 +22,11 @@ class Dbsurat(models.Model):
 class Kas(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     tgl = models.DateField()
-    dari = models.CharField(max_length=30)
-    untuk = models.CharField(max_length=30)
-    keterangan = models.CharField(max_length=100)
-    pemasukan = models.CharField(max_length=200)
-    pengeluaran = models.CharField(max_length=200)
+    dari = models.CharField(max_length=30, null=True, blank=True , default="-")
+    untuk = models.CharField(max_length=30,null=True, blank=True ,default="-")
+    keterangan = models.CharField(max_length=100 , null=True, blank=True , default="-") 
+    pemasukan = models.IntegerField(null=True, blank=True , default=0)
+    pengeluaran = models.IntegerField(null=True, blank=True , default=0) 
  
     def __str__(self):
         return str(self.id)

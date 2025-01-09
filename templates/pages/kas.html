@@ -31,23 +31,16 @@
                 <th class="text-center">Saldo</th>
         </thead>
         <tbody>
-            {% for data in dbsurat %}
+            {% for data in data_kas %}
                <tr>
                     <td class="text-center ">{{ forloop.counter }}</td>
-                    <td>{{ data.nama }}</td>
-                    <td>{{ data.surat }}</td>
-                    <td>{{ data.trak }}</td>
-                    <td>{{ data.tgl | date:"d M Y"}}</td>
-                    <td>{{ data.jam }}</td>
-                    <td>{{ data.tentang }}</td>
-                    <td class="d-flex justify-content-center" > 
-                      <div style="margin-top: 6px;">
-                          <a class="fa fa-file-pdf-o" aria-current="page" title="Files"  target="_blank" href="/upload/{{ data.upload_file }}"></a> 
-                      </div>
-                  {% comment %} </td>
-                    <td> 
-                      <a class="nav-link active text-center" aria-current="page" target="_blank" href="/upload/{{ data.upload_file }}">Lihat</a> 
-                    </td> {% endcomment %}
+                    <td>{{ data.tgl }}</td>
+                    <td>{{ data.dari }}</td>
+                    <td>{{ data.untuk }}</td>
+                    <td>{{ data.keterangan }}</td>
+                    <td>{{ data.pemasukan }}</td>
+                    <td>{{ data.pengeluaran }}</td>
+                    <td>{{ data.saldo }}</td>
                </tr>
             {% endfor %}
         </tbody>

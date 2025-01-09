@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
+import pandas as pd
 
 # Create your views here.
 def home(request):
@@ -51,7 +52,31 @@ def tambah_data(request):
 
 @login_required(login_url="/accounts/login/")
 def kas(request):
-    db_kas = Kas.objects.all()
+
+    kas = []  # Inisialisasi kas sebagai list kosong
+    try:
+        # Ambil data dari model Kas
+        db_kas = Kas.objects.all()
+
+        # Periksa apakah queryset tidak kosong
+        if db_kas.exists():
+            df_kas = pd.DataFrame(list(db_kas.values()))
+
+            # Menambahkan kolom 'saldo' jika data ada
+            df_kas['saldo'] = df_kas['pemasukan'] - df_kas['pengeluaran']
+
+            # Menambahkan saldo dengan pergeseran
+            df_kas['saldo'] = df_kas['saldo'] + (df_kas['pemasukan'] + df_kas['pengeluaran']).shift( fill_value=0)
+        
+            kas = df_kas.to_dict(orient='records')  # Mengubah ke bentuk list of dicts
+        else:
+            # Jika tidak ada data, set kas ke list kosong
+            kas = []
+
+    except Exception as e:
+        # Tangani error jika ada
+        print(f"Error: {e}")
+
     
     user = request.user
     groups = [group.name for group in user.groups.all()]
@@ -59,11 +84,59 @@ def kas(request):
 
     context =  { 
         'page_title'    : 'KAS',
-        # 'dbsurat'       : dbsurat,
+        'data_kas'       : kas,
         'group'         : groups_name
     }
     return render(request, "pages/kas.html", context)
 
+@login_required(login_url="/accounts/login/")
+def kas_pemasukan(request):
+    
+    get_tgl = request.POST.get('tgl')
+    get_dari = request.POST.get('dari')
+    get_keterangan = request.POST.get('ket')
+    get_pemasukan = request.POST.get('pemasukan')
+
+    print(get_tgl)
+    print(get_dari)
+    print(get_keterangan)
+    print(get_pemasukan)
+
+    pemasukan = Kas(
+            tgl         = get_tgl,
+            dari        = get_dari,
+            untuk       = "-",
+            keterangan  = get_keterangan,
+            pemasukan   = get_pemasukan,
+            pengeluaran = 0
+        )
+    pemasukan.save()
+
+    return redirect('kas')   
+
+
+
+@login_required(login_url="/accounts/login/")
+def kas_pengeluaran(request):
+
+    get_tgl = request.POST.get('tgl')
+    get_untuk = request.POST.get('untuk')
+    get_keterangan = request.POST.get('ket')
+    get_pengeluaran = request.POST.get('pengeluaran')
+
+    pengeluaran = Kas(
+            tgl         = get_tgl,
+            dari        = "-",
+            untuk        = get_untuk,
+            keterangan  = get_keterangan,
+            pemasukan   = 0,
+            pengeluaran   = get_pengeluaran,
+        )
+    
+    print(pengeluaran)
+    pengeluaran.save()
+
+    return redirect('kas') 
 
 @csrf_protect
 @login_required(login_url="/accounts/login/")
