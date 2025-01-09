@@ -24,9 +24,9 @@ from django.contrib.messages import constants as messages
 SECRET_KEY = 'django-insecure-dzpy5qdk1ejq%j5!q2-jx4jkig5ci-=psg9i-x7*v92-tv$ke@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.10.145.144']
 
 
 # Application definition
@@ -121,11 +121,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static' 
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    # "/var/www/static/",
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+#     # "/var/www/static/",
+# ]
 
 MEDIA_URL = '/upload/'
 MEDIA_ROOT = BASE_DIR / 'upload'
