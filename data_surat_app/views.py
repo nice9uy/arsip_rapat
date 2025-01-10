@@ -1,6 +1,6 @@
 from datetime import date
 from django.shortcuts import render,redirect,get_object_or_404
-from . models import Dbsurat, Kas 
+from . models import Dbsurat
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -53,28 +53,24 @@ def tambah_data(request):
 @login_required(login_url="/accounts/login/")
 def kas(request):
 
-    kas = []  # Inisialisasi kas sebagai list kosong
+    kas = []  
     try:
-        # Ambil data dari model Kas
-        db_kas = Kas.objects.all()
+        db_kas = Dbsurat.objects.all()
 
-        # Periksa apakah queryset tidak kosong
         if db_kas.exists():
             df_kas = pd.DataFrame(list(db_kas.values()))
 
-            # Menambahkan kolom 'saldo' jika data ada
-            df_kas['saldo'] = df_kas['pemasukan'] - df_kas['pengeluaran']
+            df_kas.loc[0,'saldo'] = df_kas.loc[0,'pemasukan'] - df_kas.loc[0,'pengeluaran']
+            df_kas['saldo'] = df_kas['saldo'] + (df_kas['pemasukan'] + df_kas['pengeluaran']).shift(fill_value=0)
 
-            # Menambahkan saldo dengan pergeseran
-            df_kas['saldo'] = df_kas['saldo'] + (df_kas['pemasukan'] + df_kas['pengeluaran']).shift( fill_value=0)
+            for i in range(1, len(df_kas)):
+                df_kas.loc[i, 'saldo'] = df_kas.loc[i-1, 'saldo'] + (df_kas.loc[i, 'pemasukan'] - df_kas.loc[i, 'pengeluaran'])
         
-            kas = df_kas.to_dict(orient='records')  # Mengubah ke bentuk list of dicts
+            kas = df_kas.to_dict(orient='records')  
         else:
-            # Jika tidak ada data, set kas ke list kosong
             kas = []
 
     except Exception as e:
-        # Tangani error jika ada
         print(f"Error: {e}")
 
     
@@ -90,74 +86,109 @@ def kas(request):
     return render(request, "pages/kas.html", context)
 
 @login_required(login_url="/accounts/login/")
-def kas_pemasukan(request):
+def kas_pemasukan(request , id_kas_masuk ):
+
+    kas_masuk = get_object_or_404(Dbsurat, pk = id_kas_masuk)
     
-    get_tgl = request.POST.get('tgl')
-    get_dari = request.POST.get('dari')
-    get_keterangan = request.POST.get('ket')
-    get_pemasukan = request.POST.get('pemasukan')
+    if request.method == 'POST':
 
-    print(get_tgl)
-    print(get_dari)
-    print(get_keterangan)
-    print(get_pemasukan)
+        get_tgl = request.POST.get('tgl')
+        get_nama = request.POST.get('nama')
+        get_surat = request.POST.get('surat')
+        get_trak = request.POST.get('trak')
+        get_jam = request.POST.get('jam')
+        get_pemasukan =  request.POST.get('pemasukan')
+        get_pengeluaran =  request.POST.get('pengeluaran')
+        upload_file_rapat = request.FILES.get('file_name')
 
-    pemasukan = Kas(
-            tgl         = get_tgl,
-            dari        = get_dari,
-            untuk       = "-",
-            keterangan  = get_keterangan,
-            pemasukan   = get_pemasukan,
-            pengeluaran = 0
-        )
-    pemasukan.save()
 
-    return redirect('kas')   
+        data_data_rapat =  kas_masuk.upload_file.name
+       
+        if upload_file_rapat == None:
+            upload_file = data_data_rapat
+
+        else:
+            upload_file = upload_file_rapat
+            kas_masuk.upload_file.delete()
+
+        kas_masuk = Dbsurat(
+                id          = id_kas_masuk,
+                tgl         = get_tgl,
+                nama        = get_nama,
+                surat       = get_surat,
+                trak        = get_trak,
+                jam         = get_jam,
+                pemasukan   = get_pemasukan,
+                pengeluaran = get_pengeluaran,
+                upload_file = upload_file
+            )
+        kas_masuk.save()
+
+        return redirect('kas')   
 
 
 
 @login_required(login_url="/accounts/login/")
-def kas_pengeluaran(request):
+def kas_pengeluaran(request , id_kas_keluar ):
 
-    get_tgl = request.POST.get('tgl')
-    get_untuk = request.POST.get('untuk')
-    get_keterangan = request.POST.get('ket')
-    get_pengeluaran = request.POST.get('pengeluaran')
-
-    pengeluaran = Kas(
-            tgl         = get_tgl,
-            dari        = "-",
-            untuk        = get_untuk,
-            keterangan  = get_keterangan,
-            pemasukan   = 0,
-            pengeluaran   = get_pengeluaran,
-        )
+    kas_keluar = get_object_or_404(Dbsurat, pk = id_kas_keluar)
     
-    print(pengeluaran)
-    pengeluaran.save()
+    if request.method == 'POST':
 
-    return redirect('kas') 
+        get_tgl = request.POST.get('tgl')
+        get_nama = request.POST.get('nama')
+        get_surat = request.POST.get('surat')
+        get_trak = request.POST.get('trak')
+        get_jam = request.POST.get('jam')
+        get_pemasukan =  request.POST.get('pemasukan')
+        get_pengeluaran =  request.POST.get('pengeluaran')
+        upload_file_rapat = request.FILES.get('file_name')
+
+
+        data_data_rapat =  kas_keluar.upload_file.name
+       
+        if upload_file_rapat == None:
+            upload_file = data_data_rapat
+
+        else:
+            upload_file = upload_file_rapat
+            kas_keluar.upload_file.delete()
+
+        kas_keluar = Dbsurat(
+                id          = id_kas_keluar,
+                tgl         = get_tgl,
+                nama        = get_nama,
+                surat       = get_surat,
+                trak        = get_trak,
+                jam         = get_jam,
+                pemasukan   = get_pemasukan,
+                pengeluaran = get_pengeluaran,
+                upload_file = upload_file
+            )
+        kas_keluar.save()
+        return redirect('kas')   
+
 
 @csrf_protect
 @login_required(login_url="/accounts/login/")
 def tambah_data_surat(request):
 
+    get_tgl = request.POST.get('tanggal')
     get_nama = request.POST.get('nama')
     get_no_surat = request.POST.get('no_surat')
     get_no_kontrak = request.POST.get('no_kontrak')
-    get_tanggal = request.POST.get('tanggal')
     get_jam = request.POST.get('jam')
-    get_tentang = request.POST.get('tentang')
 
     files_upload = request.FILES.get('file_name')
 
     upload_data = Dbsurat(
+            tgl         = get_tgl,
             nama        = get_nama,
             surat       = get_no_surat,
             trak        = get_no_kontrak,
-            tgl         = get_tanggal,
             jam         = get_jam,
-            tentang     = get_tentang,
+            pemasukan   = 0,
+            pengeluaran = 0,
             upload_file = files_upload,
         )
     upload_data.save()

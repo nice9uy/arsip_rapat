@@ -8,7 +8,7 @@
 
 <div class="container-fluid mt-1 text-white" style="">
     
-    <h5 class="text-center fw-bold">SEMUA RAPAT PROGLAP</h5>
+    <h5 style="margin-bottom: -7px;" class="text-center fw-bold mt-2">SEMUA RAPAT PROGLAP</h5>
   
     <table id="tabel_index" class="table table-striped table-bordered text-white" style="width:100%">
         <thead>
@@ -19,7 +19,6 @@
                 <th class="text-center">TRAK</th>
                 <th class="text-center">TANGGAL</th>
                 <th class="text-center">JAM</th>
-                <th class="text-center">TENTANG</th>
                 <th class="text-center">Files</th>
         </thead>
         <tbody>
@@ -31,7 +30,6 @@
                     <td>{{ data.trak }}</td>
                     <td>{{ data.tgl | date:"d M Y"}}</td>
                     <td>{{ data.jam }}</td>
-                    <td>{{ data.tentang }}</td>
                     <td class="d-flex justify-content-center" > 
                       <div style="margin-top: 6px;">
                           <a class="fa fa-file-pdf-o" aria-current="page" title="Files"  target="_blank" href="/upload/{{ data.upload_file }}"></a> 

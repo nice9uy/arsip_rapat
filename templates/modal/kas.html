@@ -1,4 +1,6 @@
-<div class="modal fade" id="modal_pemasukan" tabindex="-1" aria-labelledby="button_edit_olah_data_harian" aria-hidden="true">
+{% for data in data_kas %}
+
+<div class="modal fade" id="button_kas_pemasukan{{ data.id }}" tabindex="-1" aria-labelledby="button_edit_olah_data_harian" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -6,80 +8,59 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
-        <form action ="{% url 'kas_pemasukan' %}" method="POST" class="was-validated">
+        <form action ="{% url 'kas_pemasukan' data.id %}" method="POST" class="was-validated">
           {% csrf_token %}
           <div class="modal-body">
-            <div> 
-                
+            <div class=""> 
+              <div class="mb-2">
+                  <input type="date" class="form-control"  required name="tgl" value="{{ data.tgl |date:'Y-m-d'  }}"  >
+              </div> 
 
-                 <div class="mt-2">
-                    <label for="no_surat" class="form-label">Tanggal</label>
-                    <input type="date" class="form-control"  required name="tgl"  >
-                </div>
+              <div class="mb-2">
+                <input type="text" class="form-control" id="kepada" required name="nama" value="{{ data.nama }}" >
+              </div>
 
-                  </div>
-                  <div class="mt-2">
-                      <label for="no_surat" class="form-label">Dari</label>
-                      <input type="text" class="form-control" id="dari" required name="dari" >
-                  </div>
-                  <div class="mt-2">
-                      <label for="kepada" class="form-label">Keterangan</label>
-                      <input type="text" class="form-control" id="kepada" required name="ket" >
-                  </div>
-                  <div class="mt-2">
-                      <label for="perihal" class="form-label">Pemasukan</label>
-                      <input type="text" class="form-control" id="perihal" required name="pemasukan">
-                  </div>
+              <div class="mb-2">
+                <input type="text" class="form-control" id="kepada" required name="surat" value="{{ data.surat }}" >
+              </div>
+
+              <div class="mb-2">
+                <input type="text" class="form-control" id="kepada" required name="trak" value="{{ data.trak }}" >
+              </div>
+              <div class="mb-2">
+                <input type="text" class="form-control" id="kepada" required name="jam" value="{{ data.jam }}" >
+              </div>
+              
+              <div class="mb-5">
+                <input class="form-control " type="file" accept=".pdf" id="file_input" name="file_name"  />
+              </div>
+              
+              <div class="mb-2">
+                <label for="kepada" class="form-label">PEMASUKAN</label>
+                <input type="text" class="form-control" id="kepada" required name="pemasukan" value="{{ data.pemasukan }}" >
+              </div>
+
+              <div class="mb-2">
+                <label for="kepada" class="form-label">PENGELUARAN</label>
+                <input type="text" class="form-control" id="kepada" required name="pengeluaran" value="{{ data.pengeluaran }}" >
+              </div>
+
+
             </div>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Tambah</button>
-          </div> 
+          </div>   
+            
+          
+          </div>
         </form>
       </div>
     </div>
   </div>
 
 
-  <div class="modal fade" id="modal_pengeluaran" tabindex="-1" aria-labelledby="button_edit_olah_data_harian" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="button_edit_olah_data_harian">Pengeluaran KAS</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
 
-        <form action ="{% url 'kas_pengeluaran' %}" method="POST" class="was-validated">
-          {% csrf_token %}
-          <div class="modal-body">
-            <div> 
-                
-
-                 <div class="mt-2">
-                    <label for="no_surat" class="form-label">Tanggal</label>
-                    <input type="date" class="form-control"  required name="tgl"  >
-                </div>
-
-                  </div>
-                  <div class="mt-2">
-                      <label for="no_surat" class="form-label">Untuk</label>
-                      <input type="text" class="form-control" id="no_surat" required name="untuk">
-                  </div>
-                  <div class="mt-2">
-                      <label for="kepada" class="form-label">Keterangan</label>
-                      <input type="text" class="form-control" id="kepada" required name="ket">
-                  </div>
-                  <div class="mt-2">
-                      <label for="perihal" class="form-label">Pengeluaran</label>
-                      <input type="text" class="form-control" id="perihal" required name="pengeluaran">
-                  </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Tambah</button>
-          </div> 
-        </form>
-      </div>
-    </div>
-  </div>
-
+  {% endfor %}
+ 
+  

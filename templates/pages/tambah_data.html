@@ -12,15 +12,15 @@
 
     
         <div class="row g-3 mb-3">
+          <input type="date" class="form-control" required name="tanggal" >
            <input class="form-control" type="text" placeholder="NAMA" aria-label="default input example" name="nama" required >
            <input class="form-control" type="text" placeholder="NOMOR SURAT" aria-label="default input example" name="no_surat" required >
            <input class="form-control" type="text" placeholder="NOMOR KONTRAK" aria-label="default input example" name="no_kontrak" required >
 
-           <input type="date" class="form-control" required name="tanggal" >
            {% comment %} <input class="form-control" type="text" placeholder="JAM RAPAT" aria-label="default input example"  name="jam" required > {% endcomment %}
 
            <select class="form-select" aria-label="Default select example" name="jam" required  >
-            <option selected>JAM RAPAT</option>
+            <option value="">JAM RAPAT</option>
             <option value="8:00">8:00</option>
             <option value="9:00">9:00</option>
             <option value="10:00">10:00</option>
@@ -30,7 +30,6 @@
             <option value="15:00">15:00</option>
           </select>
 
-           <input class="form-control" type="text" placeholder="TENTANG" aria-label="default input example" name="tentang" required >
         </div>
       
         

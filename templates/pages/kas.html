@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-
+{% load l10n %}
 
 {% block  kas %}
 
@@ -13,8 +13,7 @@
     <h5 class="text-center fw-bold">KAS BAG DATIN</h5>
 
     <div style="margin-top: -2.5rem; margin-bottom: 0.4rem; justify-content: end;" class="d-flex gap-3">
-        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modal_pemasukan">PEMASUKAN</button>
-        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal_pengeluaran">PENGELUARAN</button>
+    
         <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal_laporan">LAPORAN</button>
     </div>
   
@@ -23,24 +22,30 @@
             <tr>
                 <th class="text-center">No</th>
                 <th class="text-center">Tanggal</th>
-                <th class="text-center">Dari</th>
-                <th class="text-center">Untuk</th>
-                <th class="text-center">Keterangan</th>
+                <th class="text-center">Nama</th>
+                <th class="text-center">Surat</th>
+                <th class="text-center">Trak</th>
+                <th class="text-center">Jam</th>
                 <th class="text-center">Pemasukan</th>
                 <th class="text-center">Pengeluaran</th>
                 <th class="text-center">Saldo</th>
+                <th class="text-center">Edit</th>
         </thead>
         <tbody>
             {% for data in data_kas %}
                <tr>
                     <td class="text-center ">{{ forloop.counter }}</td>
-                    <td>{{ data.tgl }}</td>
-                    <td>{{ data.dari }}</td>
-                    <td>{{ data.untuk }}</td>
-                    <td>{{ data.keterangan }}</td>
-                    <td>{{ data.pemasukan }}</td>
-                    <td>{{ data.pengeluaran }}</td>
-                    <td>{{ data.saldo }}</td>
+                    <td class="text-center">{{ data.tgl }}</td>
+                    <td>{{ data.nama }}</td>  
+                    <td>{{ data.surat }}</td>
+                    <td>{{ data.trak }}</td>
+                    <td class="text-center">{{ data.jam }}</td>
+                    <td class="text-end">{{ data.pemasukan | floatformat:"-3g" }}</td>  
+                    <td class="text-end">{{ data.pengeluaran | floatformat:"-3g" }}</td>
+                    <td class="text-end">{{ data.saldo | floatformat:"-3g" }}</td>  
+                    <td class="text-center gap-2">
+                        <button type="button" class="btn btn-success btn-sm  fa-solid fa-pen-to-square" data-bs-toggle="modal" data-placement="bottom" title="Penambahan " data-bs-target="#button_kas_pemasukan{{ data.id }}"></button>
+                    </td> 
                </tr>
             {% endfor %}
         </tbody>

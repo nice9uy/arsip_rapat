@@ -19,6 +19,7 @@
             {% if user.is_authenticated and group == 'admin'  %}
 
             <span class="mt-2 text-warning" >Selamat Datang ,  {{ user | capfirst }}</span>
+          
             <li class="nav-item">
               <a class="nav-link {% if request.path == '/dashboard/' %} active {% endif %}" href="{% url 'dashboard' %}" >Rapat Hari Ini</a>
             </li>
@@ -30,10 +31,7 @@
             
             </li>
 
-            <li class="nav-item">
-              <a class="nav-link " href="{% url 'admin:index' %}" >Admin</a>
-          
-          </li>
+       
             
             <li class="nav-item">
               <a class="nav-link" href="{% url 'logout' %}" >Logout</a>

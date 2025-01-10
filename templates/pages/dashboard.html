@@ -13,24 +13,22 @@
         <thead>
             <tr>
                 <th class="text-center">No</th>
+                <th class="text-center">TANGGAL</th>
                 <th class="text-center">NAMA</th>
                 <th class="text-center">No Surat</th>
                 <th class="text-center">TRAK</th>
-                <th class="text-center">TANGGAL</th>
                 <th class="text-center">JAM</th>
-                <th class="text-center">TENTANG</th>
                 <th class="text-center">Files</th>
         </thead>
         <tbody>
             {% for data in dbsurat %}
                <tr>
                 <td class="text-center ">{{ forloop.counter }}</td>
+                <td class="text-center">{{ data.tgl | date:"d M Y"}}</td>
                 <td>{{ data.nama }}</td>
                 <td>{{ data.surat }}</td>
                 <td>{{ data.trak }}</td>
-                <td>{{ data.tgl | date:"d M Y"}}</td>
-                <td>{{ data.jam }}</td>
-                <td>{{ data.tentang }}</td>
+                <td class="text-center">{{ data.jam }}</td>
                 <td class="d-flex justify-content-center" > 
                   <div style="margin-top: 6px;">
                       <a class="fa fa-file-pdf-o" aria-current="page" title="Files"  target="_blank" href="/upload/{{ data.upload_file }}"></a> 
