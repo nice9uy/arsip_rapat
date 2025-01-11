@@ -1,4 +1,5 @@
 from datetime import date
+from django.http import HttpResponse
 from django.shortcuts import render,redirect,get_object_or_404
 from . models import Dbsurat
 from django.views.decorators.csrf import csrf_protect
@@ -6,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 import pandas as pd
+from openpyxl import Workbook
+import json
 
 # Create your views here.
 def home(request):
@@ -43,7 +46,7 @@ def tambah_data(request):
     groups_name = ', '.join(groups)
 
     context =  { 
-        'page_title'    : 'Dashboard',
+        'page_title'    : 'Tambah Rapat',
         'dbsurat'       : dbsurat,
         'group'         : groups_name
     }
@@ -193,3 +196,70 @@ def tambah_data_surat(request):
         )
     upload_data.save()
     return redirect('dashboard')        
+
+
+@login_required(login_url="/accounts/login/")
+def cari_tgl_rapat(request):
+
+    user = request.user
+    groups = [group.name for group in user.groups.all()]
+    groups_name = ', '.join(groups)
+    if request.method == 'POST':
+        get_tgl =  str(request.POST.get('tgl'))
+        if get_tgl :
+            rapat_filter = Dbsurat.objects.filter( tgl = get_tgl )
+        else:
+            rapat_filter = Dbsurat.objects.all()
+        context = {
+            'page_title'    : 'Rapat Hari Ini',
+            "rapat_filter"  : rapat_filter,
+            "group"         : groups_name,
+        }
+        return render(request, "pages/rapat_filter.html",context )
+
+# @login_required(login_url="/accounts/login/")
+# def laporan(request):
+
+#     if request.method == 'POST':
+#         get_tgl1 =  request.POST.get('tgl1')
+#         get_tgl2 =  request.POST.get('tgl2')
+
+#         rapat_filter = Dbsurat.objects.filter(tgl__range=[get_tgl1, get_tgl2])
+
+
+#         df_kas = pd.DataFrame(list(rapat_filter.values()))
+
+#         df_kas.loc[0,'saldo'] = df_kas.loc[0,'pemasukan'] - df_kas.loc[0,'pengeluaran']
+#         df_kas['saldo'] = df_kas['saldo'] + (df_kas['pemasukan'] + df_kas['pengeluaran']).shift(fill_value=0)
+
+#         for i in range(1, len(df_kas)):
+#             df_kas.loc[i, 'saldo'] = df_kas.loc[i-1, 'saldo'] + (df_kas.loc[i, 'pemasukan'] - df_kas.loc[i, 'pengeluaran'])
+        
+#         kas = df_kas['tgl','nama', 'surat','trak','jam','pemasukan','pengeluaran','saldo' ].to_dict(orient='records')  
+#         print(kas)
+
+#         wb = Workbook()
+#         ws = wb.active
+#         ws.title = "Laporan Kas"
+
+#         headers = list(kas[0].keys())
+#         # ws.append(headers)
+
+#         print(headers)
+
+#         x = []
+
+#         for item in kas:
+#             row = [item.get(header) for header in headers]
+#             # ws.append(row)
+
+#             x.append(row)
+
+#         print(x)
+
+     
+
+#         return redirect('kas')   
+       
+        
+

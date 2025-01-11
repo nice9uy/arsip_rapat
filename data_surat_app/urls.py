@@ -11,7 +11,8 @@ urlpatterns = [
      path('kas_pemasukan/<int:id_kas_masuk>/', views.kas_pemasukan, name='kas_pemasukan' ),
      path('kas_pengeluaran/<int:id_kas_keluar>/', views.kas_pengeluaran, name='kas_pengeluaran' ),
 
-
+     path('cari_tgl_rapat/', views.cari_tgl_rapat, name='cari_tgl_rapat' ),
+     # path('laporan/', views.laporan, name='laporan' ),
 
      # path('dashboard_edit/<int:id_dashboard_katagori_edit>', views.dashboard_edit, name='dashboard_edit' ),
      # path('dashboard_delete/<int:id_dashboard_katagori_delete>', views.dashboard_delete, name='dashboard_delete' ),

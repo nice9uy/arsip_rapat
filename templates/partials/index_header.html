@@ -16,14 +16,63 @@
           <ul class="nav nav-underline fw-bold">
             <div style="margin-right: 3.5rem; " class="d-flex gap-4 fw-bold">
 
-            {% if user.is_authenticated and group == 'admin'  %}
+            {% if user.is_authenticated and group == 'super_admin'  %}
 
             <span class="mt-2 text-warning" >Selamat Datang ,  {{ user | capfirst }}</span>
           
-            <li class="nav-item">
+            {% comment %} <li class="nav-item">
               <a class="nav-link {% if request.path == '/dashboard/' %} active {% endif %}" href="{% url 'dashboard' %}" >Rapat Hari Ini</a>
-            </li>
+            </li> {% endcomment %}
+
+                {%  if request.path == '/dashboard/'  %}
+                <li class="nav-item">
+                  <a class="nav-link {% if request.path == '/dashboard/' %} active {% endif %}" href="{% url 'dashboard' %}" >Rapat Hari Ini</a>
+                </li>
+
             
+                {%  else %}
+
+                <li class="nav-item">
+                  <a class="nav-link {% if request.path == '/cari_tgl_rapat/' %} active {% endif %}" href="{% url 'dashboard' %}" >Rapat Hari Ini</a>
+                </li>
+
+                {% endif %}
+              
+            
+
+              <li class="nav-item">
+                <a class="nav-link {% if request.path == '/kas/' %} active {% endif %}" href="{% url 'kas' %}" >KAS</a>
+            
+            </li>
+
+       
+            
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}" >Logout</a>
+            </li> 
+
+            {% elif user.is_authenticated and group == 'admin'  %}
+
+            <span class="mt-2 text-warning" >Selamat Datang ,  {{ user | capfirst }}</span>
+          
+            {% comment %} <li class="nav-item">
+              <a class="nav-link {% if request.path == '/dashboard/' %} active {% endif %}" href="{% url 'dashboard' %}" >Rapat Hari Ini</a>
+            </li> {% endcomment %}
+
+                {%  if request.path == '/dashboard/'  %}
+                <li class="nav-item">
+                  <a class="nav-link {% if request.path == '/dashboard/' %} active {% endif %}" href="{% url 'dashboard' %}" >Rapat Hari Ini</a>
+                </li>
+
+            
+                {%  else %}
+
+                <li class="nav-item">
+                  <a class="nav-link {% if request.path == '/cari_tgl_rapat/' %} active {% endif %}" href="{% url 'dashboard' %}" >Rapat Hari Ini</a>
+                </li>
+
+                {% endif %}
+              
             
 
               <li class="nav-item">
@@ -40,9 +89,26 @@
             {% elif user.is_authenticated  %}
 
             <span class="mt-2 text-warning" >Selamat Datang ,  {{ user | capfirst }}</span>
-            <li class="nav-item">
-              <a class="nav-link {% if request.path == '/dashboard/' %} active {% endif %}" href="{% url 'dashboard' %}" >Rapat Hari Ini</a>
-            </li>
+
+                {%  if request.path == '/dashboard/'  %}
+                  <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/dashboard/' %} active {% endif %}" href="{% url 'dashboard' %}" >Rapat Hari Ini</a>
+                  </li>
+
+                {%  elif request.path == '/dashboard/' and group == 'admin' %}
+
+                <li class="nav-item">
+                  <a class="nav-link {% if request.path == '/cari_tgl_rapat/' %} active {% endif %}" href="{% url 'dashboard' %}" >Rapat Hari Ini</a>
+                </li>
+                
+                {%  else %}
+
+                <li class="nav-item">
+                  <a class="nav-link {% if request.path == '/cari_tgl_rapat/' %} active {% endif %}" href="{% url 'dashboard' %}" >Rapat Hari Ini</a>
+                </li>
+
+                {% endif %}
+            
             
             <li class="nav-item">
                 <a class="nav-link {% if request.path == '/tambah_data/' %} active {% endif %}" href="{% url 'tambah_data' %}" >Tambah Rapat</a>
